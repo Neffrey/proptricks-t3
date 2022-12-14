@@ -11,13 +11,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-// Necessary for Next auth
+// User & Account models
 model Account {
   id                       String   @id @default(cuid())
   createdAt                DateTime @default(now())
@@ -52,22 +46,6 @@ model Session {
   @@index([userId])
 }
 
-model User {
-  id            String      @id @default(cuid())
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  name          String?
-  email         String?     @unique
-  password      String?
-  emailVerified DateTime?
-  image         String?
-  role          String?     @default("new") // new, user, admin
-  accounts      Account[]
-  sessions      Session[]
-  ActionLogs    ActionLog[]
-  Chores        Chore[]
-}
-
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -76,44 +54,81 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Chore {
-  id          String      @id @default(cuid())
-  name        String      @default("untitled")
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      String
-  status      ChoreStatus @default(unknown) //completed todo unknown
-  date        DateTime    @default(now()) // date of creation
-  deadline    DateTime?   @default(now()) // date of completion
-  comment     String?     @db.VarChar(500)
-  isDifficult Boolean?    @default(false)
-  time        Int?        @default(0) // In minutes
-  points      Int?        @default(0)
-  ActionLog   ActionLog[]
-
-  @@index([userId])
+// USER MODEL
+model User {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  name          String?
+  email         String?   @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  role          String?   @default("user") // user, admin
+  accounts      Account[]
+  sessions      Session[]
+  comments      Comment[]
 }
 
-enum ChoreStatus {
-  completed
-  todo
-  unknown
+// TRICK MODELS
+model Trick {
+  id         String      @id @default(cuid())
+  status     String? // published or deleted
+  trickNames TrickName[]
+  trickTags  TrickTag[]
+  comments   Comment[]
 }
 
-model ActionLog {
-  id      String        @id @default(cuid())
-  user    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+model TrickName {
+  id      String @id @default(cuid())
+  name    String @default("")
+  trick   Trick  @relation(fields: [trickId], references: [id], onDelete: Cascade)
+  trickId String
+  votes   Vote[]
+
+  @@index([trickId])
+}
+
+model TrickTag {
+  id      String @id @default(cuid())
+  name    String @default("")
+  trick   Trick  @relation(fields: [trickId], references: [id], onDelete: Cascade)
+  trickId String
+  votes   Vote[]
+
+  @@index([trickId])
+}
+
+model Comment {
+  id      String @id @default(cuid())
+  text    String @default("")
+  trick   Trick  @relation(fields: [trickId], references: [id], onDelete: Cascade)
+  trickId String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
-  chore   Chore?        @relation(fields: [choreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  choreId String?
-  date    DateTime?     @default(now())
-  type    ActionLogType @default(added) // added, updated, deleted
+  votes   Vote[]
 
-  @@index([choreId])
+  @@index([trickId])
   @@index([userId])
 }
 
-enum ActionLogType {
-  added
-  updated
-  deleted
+model Vote {
+  id            String     @id @default(cuid())
+  downVote      Boolean    @default(false)
+  commentVote   Comment?   @relation(fields: [commentVoteId], references: [id], onDelete: Cascade)
+  commentVoteId String
+  nameVote      TrickName? @relation(fields: [nameVoteId], references: [id], onDelete: Cascade)
+  nameVoteId    String
+  tagVote       TrickTag?  @relation(fields: [tagVoteId], references: [id], onDelete: Cascade)
+  tagVoteId     String
+
+  @@index([commentVoteId])
+  @@index([nameVoteId])
+  @@index([tagVoteId])
+}
+
+enum VOTE_TYPES {
+  comment
+  tag
+  name
 }
