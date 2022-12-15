@@ -7,7 +7,7 @@ import { trpc } from "utils/trpc";
 // COMPONENTS
 import { useUserDataStore } from "components/stores/userDataStore";
 import NeffreyLogo from "components/svgs/neffreyLogo";
-import IfAuth from "components/helpers/ifAuth";
+import IfUser from "components/helpers/ifUser";
 import IfAdmin from "components/helpers/ifAdmin";
 
 // FC
@@ -16,11 +16,11 @@ const Header = () => {
   const { user, setUser } = useUserDataStore();
 
   //tRPC
-  const getUser = trpc.useQuery(["public.getUser"], {
-    onSuccess(data) {
-      setUser(data);
-    },
-  });
+  // const getUser = trpc.useQuery(["public.getUser"], {
+  //   onSuccess(data) {
+  //     setUser(data);
+  //   },
+  // });
 
   return (
     <div
@@ -40,26 +40,29 @@ const Header = () => {
         // MENU
         className="flex items-center justify-end gap-5"
       >
-        <Link href={"/"} passHref>
+        <Link href={"/add-trick"} passHref>
           <div className="cursor-pointer text-lg font-semibold uppercase tracking-wider text-primary-content">
-            Chores
+            Upload A Trick
           </div>
         </Link>
-        <Link href={"/stats"} passHref>
+        <Link href={"/tricks"} passHref>
           <div className="cursor-pointer text-lg font-semibold uppercase tracking-wider text-primary-content">
-            Stats
+            Tricks
           </div>
         </Link>
-        {IfAdmin(
-          <Link href={"/users"} passHref>
-            <div className="cursor-pointer text-lg font-semibold uppercase tracking-wider text-primary-content">
-              Users
-            </div>
-          </Link>
-        )}
+        {
+          // IF ADMIN - SHOW USERS
+          IfAdmin(
+            <Link href={"/users"} passHref>
+              <div className="cursor-pointer text-lg font-semibold uppercase tracking-wider text-primary-content">
+                Users
+              </div>
+            </Link>
+          )
+        }
         {
           // ACCOUNT / LOGIN BUTTON
-          IfAuth(
+          IfUser(
             <Link href="/account" passHref>
               <div className="cursor-pointer font-semibold uppercase tracking-wider text-primary-content">
                 {user?.name ? user.name : "My Account"}

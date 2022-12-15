@@ -29,32 +29,32 @@ const ChoresAuthed = () => {
   const { allChores, setAllChores, deleteChore } = useChoresDataStore();
 
   //tRPC
-  const { isLoading: getAllChoresIsLoading } = trpc.useQuery(
-    ["user.getAllChores"],
-    {
-      onSuccess: (data) => {
-        setAllChores(
-          data.map((chore) => {
-            if (chore.user.name) {
-              return {
-                ...chore,
-                user: chore.user.name,
-              };
-            } else
-              return {
-                ...chore,
-                user: null,
-              };
-          })
-        );
-      },
-    }
-  );
-  const deleteChoreMutation = trpc.useMutation(["user.deleteChore"], {
-    onSuccess: (chore) => {
-      if (chore?.id) deleteChore(chore.id);
-    },
-  });
+  // const { isLoading: getAllChoresIsLoading } = trpc.useQuery(
+  //   ["user.getAllChores"],
+  //   {
+  //     onSuccess: (data) => {
+  //       setAllChores(
+  //         data.map((chore) => {
+  //           if (chore.user.name) {
+  //             return {
+  //               ...chore,
+  //               user: chore.user.name,
+  //             };
+  //           } else
+  //             return {
+  //               ...chore,
+  //               user: null,
+  //             };
+  //         })
+  //       );
+  //     },
+  //   }
+  // );
+  // const deleteChoreMutation = trpc.useMutation(["user.deleteChore"], {
+  //   onSuccess: (chore) => {
+  //     if (chore?.id) deleteChore(chore.id);
+  //   },
+  // });
 
   // RETURN
   return (
@@ -62,7 +62,7 @@ const ChoresAuthed = () => {
       <div className="p-4" />
       <ChoreForm />
       <div className="flex items-center justify-center p-12">
-        {getAllChoresIsLoading ? (
+        {/* {getAllChoresIsLoading ? (
           <SortableTable
             columns={columns}
             data={allChores}
@@ -70,7 +70,7 @@ const ChoresAuthed = () => {
           />
         ) : (
           <></>
-        )}
+        )} */}
       </div>
     </>
   );

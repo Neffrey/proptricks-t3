@@ -22,7 +22,11 @@ export const visitorProcedure = t.procedure;
  * users are logged in
  */
 const isUser = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user) {
+  if (
+    !ctx.session ||
+    !ctx.session.user ||
+    (ctx.session.user.role !== "user" && ctx.session.user.role !== "admin")
+  ) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({
@@ -34,7 +38,7 @@ const isUser = t.middleware(({ ctx, next }) => {
 });
 
 const isAdmin = t.middleware(({ ctx, next }) => {
-  if (!ctx.session || !ctx.session.user) {
+  if (!ctx.session || !ctx.session.user || ctx.session.user.role !== "admin") {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
   return next({

@@ -5,8 +5,8 @@ import { SessionProvider } from "next-auth/react";
 
 // COMPONENTS
 import { trpc } from "utils/trpc";
-import Header from "components/templates/header";
-import Footer from "components/templates/footer";
+import Header from "components/pagerows/header";
+import Footer from "components/pagerows/footer";
 
 // GLOBAL STYLES
 import "../styles/globals.css";

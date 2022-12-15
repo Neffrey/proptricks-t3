@@ -7,6 +7,18 @@ declare module "next-auth" {
   interface Session {
     user?: {
       id: string;
-    } & DefaultSession["user"];
+    } & DefaultSession["user"] &
+      User;
   }
+}
+
+/**
+ * The shape of the user object returned in the OAuth providers' `profile` callback,
+ * or the second parameter of the `session` callback, when using a database.
+ */
+export interface User {
+  name?: string | number | null;
+  email?: string | null;
+  image?: string | null;
+  role?: string | null;
 }
