@@ -1,5 +1,5 @@
 import addClassName from "components/helpers/addClassName";
-import { FC, ChangeEvent } from "react";
+import { type FC, type ChangeEvent } from "react";
 
 const inputTypes = {
   text: ["text", "email", "password", "number", "tel", "url", "textarea"],

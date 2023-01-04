@@ -1,5 +1,5 @@
 // LIBRARIES
-import { FC } from "react";
+import { type FC } from "react";
 import { FaCheck, FaPenSquare, FaWindowClose } from "react-icons/fa";
 
 // COMPONENTS
@@ -79,9 +79,11 @@ const SortableTable: FC<SortableTableProps> = ({
           <div
             className="flex cursor-pointer text-xl text-error/70 hover:text-error"
             onClick={() =>
-              deleteMutation?.mutate ? deleteMutation.mutate({
-                id: currentData.id,
-              }) : console.log("deleteMutation not defined")
+              deleteMutation?.mutate
+                ? deleteMutation.mutate({
+                    id: currentData.id,
+                  })
+                : console.log("deleteMutation not defined")
             }
           >
             <FaWindowClose />
@@ -155,12 +157,6 @@ const SortableTable: FC<SortableTableProps> = ({
                       gridColumn: `span ${gridSpan ? gridSpan : 1}`,
                     }}
                   >
-                    {/* <button
-                    className="m-2 h-full w-full"
-                    onClick={() => console.log(data)}
-                  >
-                    Log CurrentData
-                  </button> */}
                     <>
                       {getColumnData(dataRow, accessor, type ? type : "text")}
                     </>

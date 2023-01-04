@@ -1,9 +1,9 @@
 // LIBRARIES
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect, type RefObject } from "react";
 
 // HOOK
 const useOnClickOutside = (
-  ref: React.RefObject<HTMLElement>,
+  ref: RefObject<HTMLElement>,
   handler: (event: MouseEvent | TouchEvent) => void
 ) => {
   const callback = useCallback(handler, [ref, handler]);

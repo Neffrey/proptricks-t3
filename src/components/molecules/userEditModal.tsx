@@ -1,13 +1,17 @@
 // LIBRARIES
-import { FC, useRef } from "react";
-import { api } from "utils/api";
-import * as z from "zod";
+import { type FC, useRef } from "react";
+import { z } from "zod";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { TiWarning } from "react-icons/ti";
 
-// COMPONENTS
+// tRPC
+import { api } from "utils/api";
+
+// STATE STORES
 import { useUserEditModalStore } from "stores/userEditModalStore";
 import { useAllUsersDataStore } from "stores/allUsersDataStore";
+
+// COMPONENTS
 import useOnClickOutside from "components/hooks/useOnClickOutside";
 
 // FC
@@ -39,20 +43,19 @@ const UserEditModal: FC = () => {
   } = useUserEditModalStore();
 
   // tRPC
-  const { mutate, error } = trpc.useMutation(["admin.updateUser"], {
-    onSuccess: (user) => {
-      if (allUsers)
-        setAllUsers(
-          allUsers?.map((u) => {
-            if (u.id === user.id) {
-              return user;
-            }
-            return u;
-          })
-        );
-      toggleIsModalOpen();
-    },
-  });
+  const updateUserMutation = api.admin.updateUser.useMutation();
+  if (updateUserMutation.data) {
+    if (allUsers)
+      setAllUsers(
+        allUsers?.map((u) => {
+          if (u.id === updateUserMutation.data.id) {
+            return updateUserMutation.data;
+          }
+          return u;
+        })
+      );
+    toggleIsModalOpen();
+  }
 
   // HANDLE CLICK OUTSIDE OF MODAL TO CLOSE
   const modalRef = useRef<HTMLInputElement>(null);
@@ -96,15 +99,15 @@ const UserEditModal: FC = () => {
   // HANDLE NAME CHANGE
   const handleMutation = () => {
     if (validateName.success && validateEmail.success && validateRole.success) {
-      mutate({
+      updateUserMutation.mutate({
         id: userId,
         name: nameInput,
         email: emailInput,
         role: roleInput,
       });
       //toggleIsModalOpen();
-    } else if (error) {
-      setFormError(error.message);
+    } else if (updateUserMutation.error) {
+      setFormError(updateUserMutation.error.message);
     }
   };
 
