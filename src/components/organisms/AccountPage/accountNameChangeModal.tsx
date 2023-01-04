@@ -9,8 +9,8 @@ import { TiWarning } from "react-icons/ti";
 import { api } from "utils/api";
 
 // COMPONENTS
-import { useNameChangeFormStore } from "stores/nameChangeFormStore";
-import { useMyUserDataStore } from "stores/myUserDataStore";
+import { useNameChangeFormStore } from "components/stores/nameChangeFormStore";
+import { useMyUserDataStore } from "components/stores/myUserDataStore";
 import useOnClickOutside from "components/hooks/useOnClickOutside";
 
 // PROPS

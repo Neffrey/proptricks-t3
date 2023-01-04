@@ -1,5 +1,5 @@
 // STATE STORES
-import { useMyUserDataStore } from "stores/myUserDataStore";
+import { useMyUserDataStore } from "components/stores/myUserDataStore";
 
 // COMPONENTS
 import AccountDetails from "components/organisms/AccountPage/accountDetails";

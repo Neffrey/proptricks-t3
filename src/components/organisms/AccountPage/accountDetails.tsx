@@ -4,7 +4,7 @@ import { signOut } from "next-auth/react";
 import { FaImage } from "react-icons/fa";
 
 // COMPONENTS
-import { useMyUserDataStore } from "stores/myUserDataStore";
+import { useMyUserDataStore } from "components/stores/myUserDataStore";
 
 // FC
 const AccountDetails = () => {

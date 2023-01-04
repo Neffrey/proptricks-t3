@@ -4,7 +4,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 
 // STATE STORES
-import { useMyUserDataStore } from "stores/myUserDataStore";
+import { useMyUserDataStore } from "components/stores/myUserDataStore";
 
 // COMPONENTS
 import NeffreyLogo from "components/svgs/neffreyLogo";

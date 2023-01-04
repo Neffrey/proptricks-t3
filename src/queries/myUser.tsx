@@ -2,7 +2,7 @@
 import { api } from "utils/api";
 
 // STATE STORES
-import { useMyUserDataStore } from "stores/myUserDataStore";
+import { useMyUserDataStore } from "components/stores/myUserDataStore";
 
 const MyUser = () => {
   // STORE

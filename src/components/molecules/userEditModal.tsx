@@ -8,8 +8,8 @@ import { TiWarning } from "react-icons/ti";
 import { api } from "utils/api";
 
 // STATE STORES
-import { useUserEditModalStore } from "stores/userEditModalStore";
-import { useAllUsersDataStore } from "stores/allUsersDataStore";
+import { useUserEditModalStore } from "components/stores/userEditModalStore";
+import { useAllUsersDataStore } from "components/stores/allUsersDataStore";
 
 // COMPONENTS
 import useOnClickOutside from "components/hooks/useOnClickOutside";
