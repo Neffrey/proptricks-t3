@@ -1,25 +1,25 @@
 // LIBRARIES
-import Image from "next/future/image";
+import Image from "next/image";
 import { signOut } from "next-auth/react";
 import { FaImage } from "react-icons/fa";
 
 // COMPONENTS
-import { useUserDataStore } from "components/stores/userDataStore";
+import { useMyUserDataStore } from "stores/myUserDataStore";
 
 // FC
 const AccountDetails = () => {
   // STATE
-  const { user } = useUserDataStore();
+  const { myUser } = useMyUserDataStore();
   return (
     <div className="grid grid-cols-4 items-center p-20 ">
       <h1 className="col-span-3 text-center text-5xl font-extrabold leading-normal text-gray-700 md:text-[4rem]">
-        Hello {user?.name ? user.name : "friend"}!
+        Hello {myUser?.name ? myUser.name : "friend"}!
       </h1>
       <div className="flex flex-col items-center justify-center gap-6">
-        {user?.image ? (
+        {myUser?.image ? (
           <Image
-            alt={`${user?.name}'s Profile Pic`}
-            src={user.image}
+            alt={`${myUser?.name}'s Profile Pic`}
+            src={myUser.image}
             width={150}
             height={150}
             className="col-span-2 rounded-md"
@@ -28,7 +28,7 @@ const AccountDetails = () => {
           <FaImage className="text-5xl" />
         )}
         <button
-          className="btn-xl btn btn-primary w-full font-bold"
+          className="btn-xl btn-primary btn w-full font-bold"
           onClick={() => signOut()}
         >
           Logout

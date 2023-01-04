@@ -3,16 +3,18 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 
-// COMPONENTS
-import { trpc } from "utils/trpc";
-import Header from "components/pagerows/header";
-import Footer from "components/pagerows/footer";
+// tRPC
+import { api } from "../utils/api";
 
-// GLOBAL STYLES
+// STYLES
 import "../styles/globals.css";
 
-// APP COMPONENT
-const MyApp: AppType<{ session: Session | null }> = ({
+// COMPONENTS
+import Header from "components/templates/header";
+import Footer from "components/templates/footer";
+import InitialQueries from "components/queries/initialQueries";
+
+const PropTricksApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
@@ -21,8 +23,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
       <Header />
       <Component {...pageProps} />
       <Footer />
+      <InitialQueries />
     </SessionProvider>
   );
 };
 
-export default trpc.withTRPC(MyApp);
+export default api.withTRPC(PropTricksApp);

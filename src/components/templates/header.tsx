@@ -2,10 +2,11 @@
 import React from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import { trpc } from "utils/trpc";
+
+// STATE STORES
+import { useMyUserDataStore } from "stores/myUserDataStore";
 
 // COMPONENTS
-import { useUserDataStore } from "components/stores/userDataStore";
 import NeffreyLogo from "components/svgs/neffreyLogo";
 import IfUser from "components/helpers/ifUser";
 import IfAdmin from "components/helpers/ifAdmin";
@@ -13,14 +14,7 @@ import IfAdmin from "components/helpers/ifAdmin";
 // FC
 const Header = () => {
   // STORE
-  const { user, setUser } = useUserDataStore();
-
-  //tRPC
-  // const getUser = trpc.useQuery(["public.getUser"], {
-  //   onSuccess(data) {
-  //     setUser(data);
-  //   },
-  // });
+  const { myUser } = useMyUserDataStore();
 
   return (
     <div
@@ -65,7 +59,7 @@ const Header = () => {
           IfUser(
             <Link href="/account" passHref>
               <div className="cursor-pointer font-semibold uppercase tracking-wider text-primary-content">
-                {user?.name ? user.name : "My Account"}
+                {myUser?.name ? myUser.name : "My Account"}
               </div>
             </Link>,
             <button

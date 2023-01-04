@@ -1,8 +1,8 @@
 // LIBRARIES
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 
 // COMPONENTS
-import { useUserDataStore } from "components/stores/userDataStore";
+import { useUserDataStore } from "stores/myUserDataStore";
 
 // FC
 const StatsAuthed = () => {

@@ -7,6 +7,14 @@
 
 /** @type {import("next").NextConfig} */
 const config = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+      },
+    ],
+  },
   reactStrictMode: true,
   swcMinify: true,
   i18n: {

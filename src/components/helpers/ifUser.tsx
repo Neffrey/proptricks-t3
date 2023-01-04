@@ -8,6 +8,7 @@ const IfUser = (
 ) => {
   // SESSION
   const { data: session, status } = useSession();
+  console.log("IFUSER - session", session);
 
   return status === "authenticated" &&
     (session?.user?.role === "user" || session?.user?.role === "admin")

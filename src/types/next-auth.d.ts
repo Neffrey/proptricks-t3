@@ -1,4 +1,4 @@
-import { type DefaultSession } from "next-auth";
+import { type DefaultSession, type DefaultUser } from "next-auth";
 
 declare module "next-auth" {
   /**
@@ -7,18 +7,15 @@ declare module "next-auth" {
   interface Session {
     user?: {
       id: string;
-    } & DefaultSession["user"] &
-      User;
+      role?: string | null;
+    } & DefaultSession["user"];
   }
-}
 
-/**
- * The shape of the user object returned in the OAuth providers' `profile` callback,
- * or the second parameter of the `session` callback, when using a database.
- */
-export interface User {
-  name?: string | number | null;
-  email?: string | null;
-  image?: string | null;
-  role?: string | null;
+  /**
+   * The shape of the user object returned in the OAuth providers' `profile` callback,
+   * or the second parameter of the `session` callback, when using a database.
+   */
+  export interface User extends DefaultUser {
+    role?: string | null;
+  }
 }

@@ -1,14 +1,16 @@
 // LIBRARIES
-import { FC, useRef } from "react";
-import { User } from "next-auth";
-import { trpc } from "utils/trpc";
-import * as z from "zod";
+import { type FC, useRef } from "react";
+import { type User } from "next-auth";
+import { z } from "zod";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { TiWarning } from "react-icons/ti";
 
+// tRPC
+import { api } from "utils/api";
+
 // COMPONENTS
-import { useNameChangeFormStore } from "components/stores/nameChangeFormStore";
-import { useUserDataStore } from "components/stores/userDataStore";
+import { useNameChangeFormStore } from "stores/nameChangeFormStore";
+import { useMyUserDataStore } from "stores/myUserDataStore";
 import useOnClickOutside from "components/hooks/useOnClickOutside";
 
 // PROPS
@@ -19,7 +21,7 @@ interface AccountNameChangeModalProps {
 // FC
 const AccountNameChangeModal: FC<AccountNameChangeModalProps> = ({ user }) => {
   // STATE
-  const { setUser } = useUserDataStore();
+  const { setMyUser } = useMyUserDataStore();
   const {
     nameInput,
     setNameInput,
@@ -32,11 +34,7 @@ const AccountNameChangeModal: FC<AccountNameChangeModalProps> = ({ user }) => {
   } = useNameChangeFormStore();
 
   // tRPC
-  const changeName = trpc.useMutation(["public.changeName"], {
-    onSuccess(newName) {
-      setUser(newName);
-    },
-  });
+  const changeNameMutation = api.user.changeName.useMutation();
 
   // HANDLE CLICK OUTSIDE OF MODAL TO CLOSE
   const modalRef = useRef<HTMLInputElement>(null);
@@ -57,15 +55,16 @@ const AccountNameChangeModal: FC<AccountNameChangeModalProps> = ({ user }) => {
   };
 
   // HANDLE NAME CHANGE
-  const handleNameChange = () => {
+  const handleNameChange = async () => {
     if (validate.success) {
-      changeName.mutate({
+      changeNameMutation.mutate({
         name: nameInput,
       });
+      setMyUser(changeNameMutation.data);
       toggleIsModalOpen();
     }
-    if (changeName.error) {
-      setFormError(changeName.error.message);
+    if (changeNameMutation.error) {
+      setFormError(changeNameMutation.error.message);
     }
   };
 

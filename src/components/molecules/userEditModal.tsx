@@ -1,13 +1,13 @@
 // LIBRARIES
 import { FC, useRef } from "react";
-import { trpc } from "utils/trpc";
+import { api } from "utils/api";
 import * as z from "zod";
 import { RiErrorWarningFill } from "react-icons/ri";
 import { TiWarning } from "react-icons/ti";
 
 // COMPONENTS
-import { useUserEditModalStore } from "components/stores/userEditModalStore";
-import { useAllUsersDataStore } from "components/stores/allUsersDataStore";
+import { useUserEditModalStore } from "stores/userEditModalStore";
+import { useAllUsersDataStore } from "stores/allUsersDataStore";
 import useOnClickOutside from "components/hooks/useOnClickOutside";
 
 // FC

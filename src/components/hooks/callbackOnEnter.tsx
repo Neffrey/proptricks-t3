@@ -1,5 +1,5 @@
 // LIBRARIES
-import { KeyboardEvent, useCallback, useEffect } from "react";
+import { type KeyboardEvent, useCallback, useEffect } from "react";
 
 // TYPES
 interface Props {
@@ -30,7 +30,7 @@ const CallOnEnter = ({
     };
   }, [handler]);
 
-  return <> </>;
+  return <></>;
 };
 
 export default CallOnEnter;
